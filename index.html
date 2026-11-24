@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="sr-Latn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beogradska filharmonija · naši koncerti 2026/27</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f0e0d; --panel:#181614; --line:#2b2724; --text:#ece6dc; --muted:#9a9187;
+    --gold:#c9a45c; --gold-soft:rgba(201,164,92,.12); --red:#b5523b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Inter,system-ui,sans-serif}
+  a{color:var(--gold)}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 20px 80px}
+  header .eyebrow{letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--muted)}
+  h1{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:clamp(34px,6vw,52px);line-height:1.05;margin:8px 0 6px}
+  header p{color:var(--muted);margin:0}
+
+  .hero{margin:32px 0 40px;padding:28px;border:1px solid var(--line);border-radius:14px;
+        background:linear-gradient(135deg,var(--gold-soft),transparent 60%),var(--panel)}
+  .hero .label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+  .hero h2{font-family:"Cormorant Garamond",serif;font-size:32px;margin:6px 0 2px;font-weight:600}
+  .hero .when{color:var(--muted)}
+  .count{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+  .count div{min-width:72px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);text-align:center}
+  .count b{display:block;font-family:"Cormorant Garamond",serif;font-size:34px;line-height:1;font-variant-numeric:tabular-nums}
+  .count span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+  .hero .actions{margin-top:18px;display:flex;gap:14px;flex-wrap:wrap;font-size:14px}
+  .btn{background:none;border:1px solid var(--line);color:var(--text);padding:7px 12px;border-radius:8px;cursor:pointer;font:inherit;text-decoration:none}
+  .btn:hover{border-color:var(--gold)}
+
+  .list{display:flex;flex-direction:column;gap:12px}
+  .card{border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden}
+  .card.past{opacity:.45}
+  .card.next{border-color:var(--gold)}
+  .row{display:grid;grid-template-columns:88px 1fr auto;gap:18px;align-items:center;padding:16px 18px;cursor:pointer}
+  .date{text-align:center;border-right:1px solid var(--line);padding-right:14px}
+  .date .d{font-family:"Cormorant Garamond",serif;font-size:38px;line-height:1;font-weight:700}
+  .date .m{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--gold)}
+  .date .y{font-size:11px;color:var(--muted)}
+  .title{font-family:"Cormorant Garamond",serif;font-size:24px;font-weight:600;line-height:1.15}
+  .sub{color:var(--muted);font-size:13px;margin-top:3px}
+  .tags{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+  .tag{font-size:11px;padding:2px 8px;border-radius:99px;border:1px solid var(--gold);color:var(--gold)}
+  .tag.pre{border-color:var(--muted);color:var(--muted)}
+  .chev{color:var(--muted);transition:transform .2s}
+  .card.open .chev{transform:rotate(90deg)}
+  .detail{display:none;padding:0 18px 20px 124px;border-top:1px solid var(--line)}
+  .card.open .detail{display:block}
+  .detail h4{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin:18px 0 6px;font-weight:600}
+  .detail ul{margin:0;padding:0;list-style:none}
+  .detail li{padding:5px 0;border-bottom:1px dashed var(--line);display:flex;justify-content:space-between;gap:12px}
+  .detail li:last-child{border-bottom:0}
+  .detail li.sub-item{padding-left:16px;font-size:14px;color:#d6cfc4}
+  .yt{white-space:nowrap;font-size:13px;text-decoration:none;color:var(--red);font-weight:600}
+  .yt:hover{text-decoration:underline}
+  .mini-count{font-variant-numeric:tabular-nums;color:var(--gold);font-weight:600}
+  .meta{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:14px}
+  .meta dt{color:var(--muted)}
+  .meta dd{margin:0}
+  footer{margin-top:40px;color:var(--muted);font-size:12px;text-align:center}
+
+  @media (max-width:600px){
+    .row{grid-template-columns:64px 1fr auto;gap:12px;padding:14px}
+    .date .d{font-size:30px}
+    .detail{padding:0 14px 18px}
+    .detail li{flex-direction:column;gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Beogradska filharmonija · sezona 2026/27</div>
+    <h1>Naši koncerti</h1>
+    <p>Kolarčeva zadužbina, Studentski trg 5 · početak u 20:00</p>
+  </header>
+
+  <section class="hero" id="hero"></section>
+
+  <section class="list" id="list"></section>
+
+  <footer>
+    Program može da se promeni do datuma koncerta. Zvanične informacije su na <a href="https://www.bgf.rs/kategorije-repertoar/koncertna-sezona-26-27/" target="_blank" rel="noopener">bgf.rs</a>.
+  </footer>
+</div>
+
+<script>
+// Vremena su u lokalnom beogradskom vremenu (CET +01:00 zimi, CEST +02:00 od kraja marta)
+const LEVO = "Parter levo, red XIX";
+const DESNO = "Parter desno, red IV";
+
+const concerts = [
+  {
+    start: "2026-11-20T20:00:00+01:00",
+    title: "Frensis i Andruščenko",
+    conductor: "Majkl Frensis",
+    soloists: ["Mihail Andruščenko, violina"],
+    program: [
+      { t: "B. Britn: Sinfonia da Requiem", q: "Britten Sinfonia da Requiem" },
+      { t: "G. Kančeli: Chiaroscuro za violinu i kamerni orkestar", q: "Kancheli Chiaroscuro violin chamber orchestra" },
+      { t: "S. Rahmanjinov: Simfonijske igre", q: "Rachmaninoff Symphonic Dances" }
+    ],
+    dedication: "Branku Pajeviću",
+    seats: LEVO, tags: [],
+    link: "https://www.bgf.rs/lt/repertoar_cp/frensis-i-andruscenko/"
+  },
+  {
+    start: "2026-12-04T20:00:00+01:00",
+    title: "Bloh, Malofejev, Savić",
+    conductor: "Aleksander Bloh",
+    soloists: ["Aleksander Malofejev, klavir", "Jovan Savić, truba"],
+    program: [
+      { t: "V. Mokranjac: Uvertira", q: "Vasilije Mokranjac Uvertira" },
+      { t: "D. Šostakovič: Koncert za klavir i orkestar br. 1", q: "Shostakovich Piano Concerto No 1 piano trumpet" },
+      { t: "I. Stravinski: Posvećenje proleća", q: "Stravinsky The Rite of Spring" }
+    ],
+    dedication: "Ivanu Tasovcu",
+    seats: LEVO, tags: [],
+    link: "https://www.bgf.rs/lt/repertoar_cp/bloh-malofejev-savic/"
+  },
+  {
+    start: "2027-01-22T20:00:00+01:00",
+    title: "Smbatjan i Sidorova",
+    conductor: "Sergej Smbatjan",
+    soloists: ["Ksenija Sidorova, harmonika"],
+    program: [
+      { t: "P. Stojanović: Sava", q: "Petar Stojanović Sava" },
+      { t: "F. Saj: Koncert za harmoniku i orkestar", q: "Fazil Say accordion concerto" },
+      { t: "D. Šostakovič: Simfonija br. 5", q: "Shostakovich Symphony No 5" }
+    ],
+    dedication: "Angelu Šurevu",
+    seats: DESNO, tags: ["MustSee"],
+    link: "https://www.bgf.rs/lt/repertoar_cp/smbatjan-i-sidorova/"
+  },
+  {
+    start: "2027-02-05T20:00:00+01:00",
+    title: "Robert Trevinjo",
+    conductor: "Robert Trevinjo",
+    soloists: [],
+    program: [
+      { t: "A. Brukner: Simfonija br. 5", q: "Bruckner Symphony No 5" }
+    ],
+    dedication: "Antonu Kolaru",
+    seats: LEVO, tags: ["MustSee"],
+    link: "https://www.bgf.rs/lt/repertoar_cp/robert-trevinjo/"
+  },
+  {
+    start: "2027-03-12T20:00:00+01:00",
+    title: "Onofri i Mun",
+    conductor: "Enriko Onofri",
+    soloists: ["Arseni Mun, klavir"],
+    program: [
+      { t: "F. Šopen: Koncert za klavir i orkestar br. 1", q: "Chopin Piano Concerto No 1" },
+      { t: "F. Mendelson: Simfonija br. 4, Italijanska", q: "Mendelssohn Symphony No 4 Italian" }
+    ],
+    note: "Koncert posvećen uspomeni na Zorana Đinđića",
+    seats: LEVO, tags: [],
+    link: "https://www.bgf.rs/lt/repertoar_cp/onofri-i-mun/"
+  },
+  {
+    start: "2027-04-23T20:00:00+02:00",
+    title: "Sinkovski i Ležnjeva",
+    conductor: "Dmitri Sinkovski",
+    soloists: ["Julija Ležnjeva, sopran"],
+    program: [
+      { t: "V. A. Mocart: Figarova ženidba, uvertira", q: "Mozart Le nozze di Figaro overture" },
+      { t: "V. A. Mocart: Arije iz opera", header: true },
+      { t: "Voi avete un cor fedele, koncertna arija", q: "Mozart Voi avete un cor fedele", sub: true },
+      { t: "Kralj pastir – L’amerò, sarò costante", q: "Mozart Il re pastore L'amerò sarò costante", sub: true },
+      { t: "Tako čine sve – Ei parte… Per pietà, ben mio, perdona", q: "Mozart Così fan tutte Per pietà ben mio perdona", sub: true },
+      { t: "Titovo milosrđe – Parto, parto, ma tu ben mio", q: "Mozart La clemenza di Tito Parto parto", sub: true },
+      { t: "Ch’io mi scordi di te… Non temer, amato bene", q: "Mozart Ch'io mi scordi di te K505", sub: true },
+      { t: "V. A. Mocart: Simfonija br. 38, Praška", q: "Mozart Symphony No 38 Prague" }
+    ],
+    dedication: "Oskaru Danonu",
+    seats: DESNO, tags: ["preporuka"],
+    link: "https://www.bgf.rs/lt/repertoar_cp/sinkovski-i-leznjeva/"
+  },
+  {
+    start: "2027-05-14T20:00:00+02:00",
+    title: "Venditi i VooDoo Piano Duo",
+    conductor: "Nil Venditi",
+    soloists: ["VooDoo Piano Duo"],
+    program: [
+      { t: "K. Nilsen: Helios uvertira", q: "Carl Nielsen Helios Overture" },
+      { t: "J. Roukens: Unisono, koncert za dva klavira i orkestar", q: "Joey Roukens Unisono two pianos" },
+      { t: "J. Sibelijus: Simfonija br. 2", q: "Sibelius Symphony No 2" }
+    ],
+    dedication: "Jovanu Šajnoviću",
+    seats: DESNO, tags: ["MustSee"],
+    link: "https://www.bgf.rs/lt/repertoar_cp/venditi-i-voodoo-piano-duo/"
+  }
+];
+
+const MONTHS = ["jan","feb","mar","apr","maj","jun","jul","avg","sep","okt","nov","dec"];
+const DAYS = ["nedelja","ponedeljak","utorak","sreda","četvrtak","petak","subota"];
+const TZ = "Europe/Belgrade";
+const CONCERT_LEN_MS = 2 * 60 * 60 * 1000; // koncert se smatra "u toku" 2h
+
+const fmtParts = d => {
+  const p = new Intl.DateTimeFormat("en-GB",{timeZone:TZ,year:"numeric",month:"numeric",day:"numeric",weekday:"short"}).formatToParts(d);
+  const g = t => p.find(x=>x.type===t).value;
+  const wd = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday"));
+  return { d:+g("day"), m:+g("month")-1, y:+g("year"), wd };
+};
+const longDate = d => { const p = fmtParts(d); return `${DAYS[p.wd]}, ${p.d}. ${MONTHS[p.m]} ${p.y}. u 20:00`; };
+const yt = q => "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+const pad = n => String(n).padStart(2,"0");
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function split(ms){
+  const s = Math.max(0, Math.floor(ms/1000));
+  return { d:Math.floor(s/86400), h:Math.floor(s%86400/3600), m:Math.floor(s%3600/60), s:s%60 };
+}
+const short = ms => { const t = split(ms); return `${t.d}d ${pad(t.h)}:${pad(t.m)}:${pad(t.s)}`; };
+
+concerts.forEach(c => c.date = new Date(c.start));
+
+function nextIndex(now){
+  return concerts.findIndex(c => c.date.getTime() + CONCERT_LEN_MS > now);
+}
+
+function gcalLink(c){
+  const f = d => d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
+  const end = new Date(c.date.getTime() + CONCERT_LEN_MS);
+  const details = c.program.filter(p=>!p.sub).map(p=>p.t).join("\n") + "\n\n" + c.link;
+  return "https://calendar.google.com/calendar/render?action=TEMPLATE"
+    + "&text=" + encodeURIComponent("BGF: " + c.title)
+    + "&dates=" + f(c.date) + "/" + f(end)
+    + "&details=" + encodeURIComponent(details)
+    + "&location=" + encodeURIComponent("Kolarčeva zadužbina, Studentski trg 5, Beograd");
+}
+
+function downloadICS(){
+  const f = d => d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
+  const icsEsc = s => s.replace(/\\/g,"\\\\").replace(/[,;]/g, m=>"\\"+m).replace(/\n/g,"\\n");
+  const lines = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//BGF koncerti//SR","CALSCALE:GREGORIAN"];
+  concerts.forEach((c,i) => {
+    const end = new Date(c.date.getTime() + CONCERT_LEN_MS);
+    lines.push("BEGIN:VEVENT",
+      `UID:bgf-2026-27-${i}@koncerti`,
+      `DTSTAMP:${f(new Date())}`,
+      `DTSTART:${f(c.date)}`, `DTEND:${f(end)}`,
+      `SUMMARY:${icsEsc("BGF: " + c.title)}`,
+      `LOCATION:${icsEsc("Kolarčeva zadužbina, Studentski trg 5, Beograd")}`,
+      `DESCRIPTION:${icsEsc(c.program.filter(p=>!p.sub).map(p=>p.t).join("\n") + "\n\n" + c.link)}`,
+      `URL:${c.link}`,
+      "END:VEVENT");
+  });
+  lines.push("END:VCALENDAR");
+  const blob = new Blob([lines.join("\r\n")], {type:"text/calendar"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = "bgf-koncerti-2026-27.ics"; a.click();
+}
+
+function renderList(){
+  const now = Date.now(), ni = nextIndex(now);
+  document.getElementById("list").innerHTML = concerts.map((c,i) => {
+    const p = fmtParts(c.date);
+    const past = c.date.getTime() + CONCERT_LEN_MS < now;
+    const tags = c.tags.map(t => t==="MustSee" ? `<span class="tag">Must see</span>` : `<span class="tag pre">Preporuka</span>`).join("");
+    const who = [c.conductor + " (dirigent)", ...c.soloists].join(" · ");
+    const prog = c.program.map(x => x.header
+      ? `<li><span>${esc(x.t)}</span></li>`
+      : `<li class="${x.sub?"sub-item":""}"><span>${esc(x.t)}</span><a class="yt" href="${yt(x.q)}" target="_blank" rel="noopener">▶ YouTube</a></li>`).join("");
+    return `
+    <article class="card ${past?"past":""} ${i===ni?"next":""}" data-i="${i}">
+      <div class="row" role="button" tabindex="0" aria-expanded="false">
+        <div class="date"><div class="d">${p.d}</div><div class="m">${MONTHS[p.m]}</div><div class="y">${p.y}</div></div>
+        <div>
+          <div class="title">${esc(c.title)}</div>
+          <div class="sub">${esc(who)}</div>
+          ${tags ? `<div class="tags">${tags}</div>` : ""}
+        </div>
+        <div class="chev">›</div>
+      </div>
+      <div class="detail">
+        <h4>${past ? "Održan" : "Do koncerta"}</h4>
+        <div>${past ? "Koncert je održan." : `<span class="mini-count" data-count="${i}">${short(c.date - now)}</span>`}</div>
+        <h4>Program i priprema</h4>
+        <ul>${prog}</ul>
+        <h4>Detalji</h4>
+        <dl class="meta">
+          <dt>Kada</dt><dd>${longDate(c.date)}</dd>
+          <dt>Naša mesta</dt><dd>${c.seats}</dd>
+          ${c.dedication ? `<dt>Posveta</dt><dd>${esc(c.dedication)}</dd>` : ""}
+          ${c.note ? `<dt>Napomena</dt><dd>${esc(c.note)}</dd>` : ""}
+        </dl>
+        <div class="actions" style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn" href="${c.link}" target="_blank" rel="noopener">Stranica na bgf.rs</a>
+          ${past ? "" : `<a class="btn" href="${gcalLink(c)}" target="_blank" rel="noopener">Dodaj u Google kalendar</a>`}
+        </div>
+      </div>
+    </article>`;
+  }).join("");
+
+  document.querySelectorAll(".card .row").forEach(r => {
+    const toggle = () => { const card = r.parentElement; card.classList.toggle("open"); r.setAttribute("aria-expanded", card.classList.contains("open")); };
+    r.addEventListener("click", toggle);
+    r.addEventListener("keydown", e => { if (e.key==="Enter"||e.key===" ") { e.preventDefault(); toggle(); } });
+  });
+  const nextCard = document.querySelector(".card.next");
+  if (nextCard) { nextCard.classList.add("open"); nextCard.querySelector(".row").setAttribute("aria-expanded","true"); }
+}
+
+function renderHero(){
+  const now = Date.now(), ni = nextIndex(now), hero = document.getElementById("hero");
+  if (ni === -1) {
+    hero.innerHTML = `<div class="label">Sezona je završena</div><h2>Vidimo se sledeće sezone</h2>`;
+    return;
+  }
+  const c = concerts[ni];
+  const live = c.date.getTime() <= now;
+  const t = split(c.date - now);
+  hero.innerHTML = `
+    <div class="label">${live ? "Upravo traje" : "Sledeći koncert"}</div>
+    <h2>${esc(c.title)}</h2>
+    <div class="when">${longDate(c.date)} · ${c.seats}</div>
+    ${live ? "" : `<div class="count">
+      <div><b>${t.d}</b><span>dana</span></div>
+      <div><b>${pad(t.h)}</b><span>sati</span></div>
+      <div><b>${pad(t.m)}</b><span>minuta</span></div>
+      <div><b>${pad(t.s)}</b><span>sekundi</span></div>
+    </div>`}
+    <div class="actions">
+      <button class="btn" onclick="downloadICS()">Svi koncerti u kalendar (.ics)</button>
+    </div>`;
+}
+
+function tick(){
+  renderHero();
+  const now = Date.now();
+  document.querySelectorAll("[data-count]").forEach(el => {
+    const c = concerts[+el.dataset.count];
+    el.textContent = c.date > now ? short(c.date - now) : "u toku";
+  });
+}
+
+renderList();
+tick();
+setInterval(tick, 1000);
+</script>
+</body>
